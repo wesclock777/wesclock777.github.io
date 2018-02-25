@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="english">
+
+<head>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Using sklearn to cluster tweets to lead categories</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="/" rel="canonical" />
+
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+    <link href="/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html" rel="canonical" />
+
+        <meta name="description" content="This segment of the project was focused on building an idea of what the dataset looked like. By clustering our tweets into several sets,...">
+
+        <meta name="author" content="Wesley Klock">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Twitter Sentiment Brand Analysis"/>
+<meta property="og:title" content="Using sklearn to cluster tweets to lead categories"/>
+<meta property="og:description" content="This segment of the project was focused on building an idea of what the dataset looked like. By clustering our tweets into several sets,..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-02-25 04:00:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/wesley-klock">
+<meta property="article:section" content="Clustering Tweets"/>
+<meta property="og:image" content="/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Using sklearn to cluster tweets to lead categories",
+  "headline": "Using sklearn to cluster tweets to lead categories",
+  "datePublished": "2018-02-25 04:00:00-06:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Wesley Klock",
+    "url": "/author/wesley-klock"
+  },
+  "image": "/images/home-bg.jpg",
+  "url": "/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html",
+  "description": "This segment of the project was focused on building an idea of what the dataset looked like. By clustering our tweets into several sets,..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="mailto: wesleyklock@utexas.edu" role="presentation">Email</a></li>
+          <li><a href="https://github.com/wesclock777/HACKUTD" role="presentation">Github</a></li>
+          <li><a href="https://www.facebook.com/wesley.clock.9" role="presentation">Facebook</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Using sklearn to cluster tweets to lead categories</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="/author/wesley-klock">Wesley Klock</a>
+            | <time datetime="Sun 25 February 2018">Sun 25 February 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+            <div class="post-cover cover" style="background-image: url('/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>This segment of the project was focused on building an idea of what the dataset
+looked like.</p>
+<p>By clustering our tweets into several sets, we can determine what a influential
+tweet looks like.</p>
+<p>currently our csv headers look like this:</p>
+<table>
+<thead>
+<tr>
+<th>date</th>
+<th align="center">text</th>
+<th align="right">followers</th>
+<th align="right">polarity</th>
+<th align="right">sentiment_confidence</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>Now the problem is how we know what values will be important in determining
+lead quality.</p>
+<p>Intuitively, I decided to drop the text itself, and the date of the Tweets.
+Because these values were hard to get a quantitative value for in terms of
+influence. While follower count of the people who posted it, and the polarity of
+the tweet certainty had influence on the impact of the tweet, these other
+variables were less directly linked.</p>
+<p>After these values were removed, the plot was analyzed for the proper number of
+clusters. I chose to use an elbow plot to see where the dropoff occurred.
+The dropoff was less clear than I would have liked, but the graph showed that
+5 clusters would be a good match for my kmeans clustering.</p>
+<p>For each individual stock, sci-kit learn was used to cluster and graph this
+clustering.</p>
+<p>Below the code is provided with the elbow plot commented out. Samples of the
+Clustering graph outputs are below that.</p>
+<h2>cluster.py</h2>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">scipy</span> <span class="kn">import</span> <span class="n">stats</span>
+<span class="kn">from</span> <span class="nn">sklearn.cluster</span> <span class="kn">import</span> <span class="n">KMeans</span>
+<span class="kn">from</span> <span class="nn">sklearn.decomposition</span> <span class="kn">import</span> <span class="n">PCA</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="kn">as</span> <span class="nn">plt</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="kn">as</span> <span class="nn">sns</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="c1">#from mpl_toolkits.mplot3d import Axes3D</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;sentimentdata/&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;sentiment.csv&#39;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+<span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">)</span>
+<span class="n">dfold</span> <span class="o">=</span> <span class="n">df</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;text&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="s1">&#39;date&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+
+<span class="n">df_tr</span> <span class="o">=</span> <span class="n">df</span>
+<span class="c1"># select proper number of clusters</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">Y = df[[&#39;followers&#39;]]</span>
+<span class="sd">X = df[[&#39;polarity&#39;]]</span>
+
+<span class="sd">Nc = range(1, 20)</span>
+<span class="sd">kmeans = [KMeans(n_clusters=i) for i in Nc]</span>
+<span class="sd">score = [kmeans[i].fit(Y).score(Y) for i in range(len(kmeans))]</span>
+<span class="sd">plt.plot(Nc,score)</span>
+<span class="sd">plt.xlabel(&#39;Number of Clusters&#39;)</span>
+<span class="sd">plt.ylabel(&#39;Score&#39;)</span>
+<span class="sd">plt.title(&#39;Elbow Curve&#39;)</span>
+<span class="sd">plt.show()</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># elbow plot showed the point of dropoff to be around 5 clusters</span>
+
+<span class="c1">#Standardize</span>
+
+<span class="n">clmns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;followers&#39;</span><span class="p">,</span> <span class="s1">&#39;polarity&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_confidence&#39;</span><span class="p">]</span>
+
+<span class="n">df_tr_std</span><span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">zscore</span><span class="p">(</span><span class="n">df_tr</span><span class="p">[</span><span class="n">clmns</span><span class="p">])</span>
+
+<span class="c1">#Clustering</span>
+
+<span class="n">kmeans</span> <span class="o">=</span> <span class="n">KMeans</span><span class="p">(</span><span class="n">n_clusters</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">df_tr_std</span><span class="p">)</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="n">kmeans</span><span class="o">.</span><span class="n">labels_</span>
+
+<span class="c1">#Glue back to original data</span>
+<span class="n">df_tr</span><span class="p">[</span><span class="s1">&#39;clusters&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">labels</span>
+<span class="n">dfold</span><span class="p">[</span><span class="s1">&#39;clusters&#39;</span><span class="p">]</span><span class="o">=</span><span class="n">labels</span>
+
+<span class="n">clmns</span><span class="o">.</span><span class="n">extend</span><span class="p">([</span><span class="s1">&#39;clusters&#39;</span><span class="p">])</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">df_tr</span><span class="p">[</span><span class="n">clmns</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">([</span><span class="s1">&#39;clusters&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span>
+
+<span class="c1">#Scatter plot of polarity and confidence</span>
+<span class="n">sns</span><span class="o">.</span><span class="n">lmplot</span><span class="p">(</span><span class="s1">&#39;polarity&#39;</span><span class="p">,</span> <span class="s1">&#39;sentiment_confidence&#39;</span><span class="p">,</span>
+           <span class="n">data</span><span class="o">=</span><span class="n">df_tr</span><span class="p">,</span>
+           <span class="n">fit_reg</span><span class="o">=</span><span class="bp">False</span><span class="p">,</span>
+           <span class="n">hue</span><span class="o">=</span><span class="s2">&quot;clusters&quot;</span><span class="p">,</span>
+           <span class="n">scatter_kws</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;marker&quot;</span><span class="p">:</span> <span class="s2">&quot;D&quot;</span><span class="p">,</span>
+                        <span class="s2">&quot;s&quot;</span><span class="p">:</span> <span class="mi">20</span><span class="p">})</span>
+
+<span class="n">dfold</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;clusterdata/&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;cluster.csv&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;tweets grouped by polarity and sentiment_confidence&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;polarity&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;sentiment_confidences&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+
+
+<h2>amazon clustering</h2>
+<p><img alt="cluster1" src="/2018/02/images/cluster1.png"></p>
+<h2>apple clustering</h2>
+<p><img alt="cluster2" src="/2018/02/images/cluster2.png"></p>
+<h2>microsoft clustering</h2>
+<p><img alt="cluster3" src="/2018/02/images/cluster3.png"></p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Using sklearn to cluster tweets to lead categories&amp;url=/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=/2018/02/using-sklearn-to-cluster-tweets-to-lead-categories.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">theme adapted<a rel="nofollow"> by wesley klock</a></span>
+          <span class="credits-software">published with <a href="https://github.com/getpelican/pelican" rel="nofollow">pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="english">
+
+<head>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Using TextBlob to perform sentiment analysis on tweets</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="/" rel="canonical" />
+
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+    <link href="/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html" rel="canonical" />
+
+        <meta name="description" content="This section of the project is focused on the sentiment analysis performed on the tweets themselves. The program was first used to pull...">
+
+        <meta name="author" content="Wesley Klock">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Twitter Sentiment Brand Analysis"/>
+<meta property="og:title" content="Using TextBlob to perform sentiment analysis on tweets"/>
+<meta property="og:description" content="This section of the project is focused on the sentiment analysis performed on the tweets themselves. The program was first used to pull..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-02-25 05:00:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/wesley-klock">
+<meta property="article:section" content="Sentiment analysis"/>
+<meta property="og:image" content="/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Using TextBlob to perform sentiment analysis on tweets",
+  "headline": "Using TextBlob to perform sentiment analysis on tweets",
+  "datePublished": "2018-02-25 05:00:00-06:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Wesley Klock",
+    "url": "/author/wesley-klock"
+  },
+  "image": "/images/home-bg.jpg",
+  "url": "/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html",
+  "description": "This section of the project is focused on the sentiment analysis performed on the tweets themselves. The program was first used to pull..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="mailto: wesleyklock@utexas.edu" role="presentation">Email</a></li>
+          <li><a href="https://github.com/wesclock777/HACKUTD" role="presentation">Github</a></li>
+          <li><a href="https://www.facebook.com/wesley.clock.9" role="presentation">Facebook</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Using TextBlob to perform sentiment analysis on tweets</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="/author/wesley-klock">Wesley Klock</a>
+            | <time datetime="Sun 25 February 2018">Sun 25 February 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+            <div class="post-cover cover" style="background-image: url('/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>This section of the project is focused on the sentiment analysis performed on
+the tweets themselves. The program was first used to pull and analyze Tweets,
+so I could get a better sense of how to clean the tweets so TextBlob can perform
+accurate analysis. The tweet text was cleaned from the csv file and then passed
+to the function below, which performs standard sentiment matching using
+tokenization and a lexicon.</p>
+<p>This code is pretty simple but it is important to recognize how it works</p>
+<p>This process involves a couple of steps:</p>
+<ul>
+<li>First, get a large dictionary, or lexicon, as it is commonly known, of words
+  and give them a polarity, from [-1,1], where -1 is really bad and 1 is really
+  good.</li>
+<li>Then, each word in the tweet is matched to one in the dictionary and given
+  that default lexicon value and catagorized based on the type of word and the
+  sentence, ex. verb, subject, etc.</li>
+<li>Lastly, the Textblob comes up with a multiplier for each word based on this
+  context and combines them to come up with a single polarity of the tweet, and
+  a confidence level for this estimate.</li>
+</ul>
+<p>The code I used is below:</p>
+<p>sentiment.py</p>
+<hr>
+<p>```python
+  import textblob
+  import tweepy
+  import pandas
+  import sys
+  from textblob import TextBlob</p>
+<p>consumer_key = "zgxU0sbLkEB93I3I3wLEDjRok"
+  consumer_secret = "nmV0Q8bNsNsFlKffVKbNy20vX2IAWNtzLbcHpNsZaoYAysgxfI"</p>
+<p>access_token = "961470586827440128-EFWGLphaPXOUQkjCZNjzcdgXfmtTYcy"
+  access_token_secret = "TZFVLqznwo6lgITQlVk6T9lxIKaAimV7WShXVnYItnFYL"</p>
+<p>auth = tweepy.OAuthHandler(consumer_key, consumer_secret,)
+  auth.set_access_token(access_token, access_token_secret)</p>
+<p>api = tweepy.API(auth)
+  colnames=['date', 'text', 'followers']</p>
+<p>df = pandas.read_csv('tweetdata/'+sys.argv[1]+'tweets.csv',encoding='latin-1', names=colnames, header=None)
+  df['polarity'] = 0.0000
+  df['sentiment_confidence'] = 0.0000</p>
+<p>for index,row in df.iterrows():
+      analysis = TextBlob(df['text'][index])
+      sentiment, confidence = analysis.sentiment
+      df.at[index,'polarity'] = sentiment
+      df.at[index,'sentiment_confidence'] = confidence</p>
+<p>df.to_csv('sentimentdata/'+sys.argv[1]+'sentiment.csv')</p>
+<p>```</p>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Using TextBlob to perform sentiment analysis on tweets&amp;url=/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=/2018/02/using-textblob-to-perform-sentiment-analysis-on-tweets.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">theme adapted<a rel="nofollow"> by wesley klock</a></span>
+          <span class="credits-software">published with <a href="https://github.com/getpelican/pelican" rel="nofollow">pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+</body>
+</html>

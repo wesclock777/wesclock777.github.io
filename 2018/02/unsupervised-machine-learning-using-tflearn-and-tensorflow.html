@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="english">
+
+<head>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Unsupervised machine learning using tflearn and tensorflow</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="/" rel="canonical" />
+
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+    <link href="/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html" rel="canonical" />
+
+        <meta name="description" content="On the other hand, unsupervised learning has a more complex method to calculating and developing a model. It took me many tries to get...">
+
+        <meta name="author" content="Wesley Klock">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Twitter Sentiment Brand Analysis"/>
+<meta property="og:title" content="Unsupervised machine learning using tflearn and tensorflow"/>
+<meta property="og:description" content="On the other hand, unsupervised learning has a more complex method to calculating and developing a model. It took me many tries to get..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-02-25 01:30:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/wesley-klock">
+<meta property="article:section" content="Unsupervised learning"/>
+<meta property="og:image" content="/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Unsupervised machine learning using tflearn and tensorflow",
+  "headline": "Unsupervised machine learning using tflearn and tensorflow",
+  "datePublished": "2018-02-25 01:30:00-06:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Wesley Klock",
+    "url": "/author/wesley-klock"
+  },
+  "image": "/images/home-bg.jpg",
+  "url": "/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html",
+  "description": "On the other hand, unsupervised learning has a more complex method to calculating and developing a model. It took me many tries to get..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="mailto: wesleyklock@utexas.edu" role="presentation">Email</a></li>
+          <li><a href="https://github.com/wesclock777/HACKUTD" role="presentation">Github</a></li>
+          <li><a href="https://www.facebook.com/wesley.clock.9" role="presentation">Facebook</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Unsupervised machine learning using tflearn and tensorflow</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="/author/wesley-klock">Wesley Klock</a>
+            | <time datetime="Sun 25 February 2018">Sun 25 February 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+            <div class="post-cover cover" style="background-image: url('/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>On the other hand, unsupervised learning has a more complex method to calculating
+and developing a model. It took me many tries to get the parameters with the best
+results and even then I still have a long way to go.</p>
+<p>I simply didn't have enough computing power to run the tflearn model so I had to
+set up a ec2 AWS Ubuntu instance to run it on.</p>
+<p>I used Bitfusion Ubuntu 14 TensorFlow system on a free-trial :) so it didn't cost
+me any money. Again, the code is quite complex but hopefully I can summarize the
+process with a few screenshots and my code.</p>
+<h2>Setting up my AWS system</h2>
+<p><img alt="aws" src="/2018/02/images/aws.png"></p>
+<h2>One of my first tries on the AWS system using putty</h2>
+<p><img alt="first try" src="/2018/02/images/putty.png"></p>
+<blockquote>
+<p>My best try resulted in a binary accuracy of .7344!</p>
+</blockquote>
+<p>The settings I used on my best try are recorded below in the code.</p>
+<p>This model used tflearn's Deep Neural Net, I experimented with different numbers
+of layers, types of layers, etc. I settled on a network with 3 fully connected
+nets, one for reshaping, and lastly a regression layer.</p>
+<p>The commented code is what I started with.</p>
+<p>The last part of the code called Testing Phase takes in a tweet's relevant data
+and predicts a difference value</p>
+<h2>neuralnet.py</h2>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">tflearn</span>
+
+<span class="c1">#from tflearn.data_utils import to_categorical, pad_sequences, load_</span>
+
+<span class="c1"># NOTE: Preprocessing for the dataset already accomplished in the previous files</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">train, test, _ = imdb.load_dat(path = &#39;imdb.pkl&#39;, n_words= 10000, valid_portion= .1) #10% validation set, pkl for a bytestream</span>
+
+<span class="sd">trainX, trainY = train</span>
+<span class="sd">testX, testY = test</span>
+
+<span class="sd">#Data preprocessing vectorize</span>
+<span class="sd">#Sequence padding</span>
+<span class="sd">trainX= pad_sequences(trainX, maxlen=100, value=0.)</span>
+<span class="sd">testX = pad_sequences(testX, maxlen=100, value=0.)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="n">data</span><span class="p">,</span> <span class="n">target</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">data_utils</span><span class="o">.</span><span class="n">load_csv</span><span class="p">(</span><span class="s1">&#39;final.csv&#39;</span><span class="p">,</span> <span class="n">target_column</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span><span class="n">has_header</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">def preprocess(tweets, columns_to_delete):</span>
+<span class="sd">    # Sort by descending id and delete columns</span>
+<span class="sd">    for column_to_delete in sorted(columns_to_delete, reverse=True):</span>
+<span class="sd">        [tweet.pop(column_to_delete) for tweet in tweets]</span>
+<span class="sd">    return np.array(tweets, dtype=np.float32)</span>
+
+<span class="sd">to_ignore=[3]</span>
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="c1">#data = preprocess(data, to_ignore)</span>
+<span class="n">target</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="p">(</span><span class="mi">10320</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span>
+
+
+
+<span class="c1"># Build deep neural network</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">input_data</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="bp">None</span><span class="p">,</span> <span class="mi">4</span><span class="p">])</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">fully_connected</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">fully_connected</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">32</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">fully_connected</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;linear&#39;</span><span class="p">)</span>
+<span class="n">net</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">regression</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;mean_square&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;target&#39;</span><span class="p">)</span>
+
+
+<span class="n">model</span> <span class="o">=</span> <span class="n">tflearn</span><span class="o">.</span><span class="n">DNN</span><span class="p">(</span><span class="n">net</span><span class="p">)</span>
+<span class="c1"># Start training (apply gradient descent algorithm)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">show_metric</span><span class="o">=</span><span class="bp">True</span><span class="p">,</span> <span class="n">n_epoch</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">validation_set</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+<span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">trainY = to_catagorical(trainY, nb_classes=2)</span>
+<span class="sd">testY = to_categorical(testY , nb_classes=2)</span>
+
+<span class="sd">#Network building</span>
+<span class="sd">net = tflearn.input_data([None, 100]) #input layer</span>
+<span class="sd">net = tflearn.embedding(net, input_dim = 10000, output_dim= 128) #embedding layer</span>
+<span class="sd">net = tflearn.lstm(net, 128, dropout=0.8)</span>
+<span class="sd">net = tflearn.fully_connected(net , 2, activation=&#39;softmax&#39;) #squish to output the probability</span>
+<span class="sd">net = tflearn.regression(net, optimizer=&#39;adam&#39;, learning_rate=0.0001, loss=&#39;catagorical_crossentropy&#39;)</span>
+
+<span class="sd">#Training</span>
+<span class="sd">model = tflearn.DNN(net, tensorboard_verbose=0)</span>
+<span class="sd">model.fit(trainX, trainY, validation_set(testX, testY), show_metric=True, batch_size=32)</span>
+<span class="sd">&#39;&#39;&#39;</span>
+
+<span class="c1"># Testing Phase</span>
+
+<span class="n">bad</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">2000</span><span class="p">,</span> <span class="o">.</span><span class="mi">67</span><span class="p">,</span> <span class="o">.</span><span class="mi">55</span><span class="p">,</span> <span class="mi">2</span><span class="p">]</span>
+<span class="n">good</span> <span class="o">=</span> <span class="p">[</span> <span class="mi">100000</span><span class="p">,</span> <span class="o">-.</span><span class="mi">65</span><span class="p">,</span> <span class="o">.</span><span class="mi">35</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+<span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">([</span><span class="n">bad</span><span class="p">,</span> <span class="n">good</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Tweet 1 difference value:&quot;</span><span class="p">,</span> <span class="n">pred</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="s2">&quot;Tweet 2 difference value:&quot;</span><span class="p">,</span> <span class="n">pred</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+</pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Unsupervised machine learning using tflearn and tensorflow&amp;url=/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=/2018/02/unsupervised-machine-learning-using-tflearn-and-tensorflow.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">theme adapted<a rel="nofollow"> by wesley klock</a></span>
+          <span class="credits-software">published with <a href="https://github.com/getpelican/pelican" rel="nofollow">pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+</body>
+</html>

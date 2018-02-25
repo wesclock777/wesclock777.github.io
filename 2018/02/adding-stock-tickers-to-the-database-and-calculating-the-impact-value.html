@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="english">
+
+<head>
+      <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+
+  <title>Adding stock tickers to the database and calculating the impact value</title>
+
+
+  <meta name="HandheldFriendly" content="True" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="referrer" content="origin" />
+  <meta name="generator" content="Pelican" />
+  <link href="/" rel="canonical" />
+
+  <!-- Feed -->
+
+  <link href="/theme/css/style.css" type="text/css" rel="stylesheet" />
+
+  <!-- Code highlight color scheme -->
+      <link href="/theme/css/code_blocks/github.css" rel="stylesheet">
+
+
+  <!-- Custom fonts -->
+  <link href='https://fonts.googleapis.com/css?family=Montserrat:400,300' rel='stylesheet' type='text/css' />
+  <link href="https://fonts.googleapis.com/css?family=Lato" rel="stylesheet" type="text/css" />
+
+  <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+  <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+  <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+  <![endif]-->
+
+
+    <link href="/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html" rel="canonical" />
+
+        <meta name="description" content="Only at this stage of the project was I able to bring in the thing that it was all for: predicting stock values. It was unexpectedly...">
+
+        <meta name="author" content="Wesley Klock">
+
+
+
+
+
+<!-- Open Graph -->
+<meta property="og:site_name" content="Twitter Sentiment Brand Analysis"/>
+<meta property="og:title" content="Adding stock tickers to the database and calculating the impact value"/>
+<meta property="og:description" content="Only at this stage of the project was I able to bring in the thing that it was all for: predicting stock values. It was unexpectedly..."/>
+<meta property="og:locale" content="en_US"/>
+<meta property="og:url" content="/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html"/>
+<meta property="og:type" content="article"/>
+<meta property="article:published_time" content="2018-02-25 03:00:00-06:00"/>
+<meta property="article:modified_time" content=""/>
+<meta property="article:author" content="/author/wesley-klock">
+<meta property="article:section" content="Adding Stock Prices"/>
+<meta property="og:image" content="/images/home-bg.jpg">
+
+<!-- Twitter Card -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "name": "Adding stock tickers to the database and calculating the impact value",
+  "headline": "Adding stock tickers to the database and calculating the impact value",
+  "datePublished": "2018-02-25 03:00:00-06:00",
+  "dateModified": "",
+  "author": {
+    "@type": "Person",
+    "name": "Wesley Klock",
+    "url": "/author/wesley-klock"
+  },
+  "image": "/images/home-bg.jpg",
+  "url": "/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html",
+  "description": "Only at this stage of the project was I able to bring in the thing that it was all for: predicting stock values. It was unexpectedly..."
+}
+</script>
+</head>
+<!-- TODO : Body class -->
+<body class="home-template">
+
+<nav id="menu">
+  <a class="close-button">Close</a>
+  <div class="nav-wrapper">
+    <p class="nav-label">Menu</p>
+    <ul>
+          <li><a href="/" role="presentation">Home</a></li>
+          <li><a href="mailto: wesleyklock@utexas.edu" role="presentation">Email</a></li>
+          <li><a href="https://github.com/wesclock777/HACKUTD" role="presentation">Github</a></li>
+          <li><a href="https://www.facebook.com/wesley.clock.9" role="presentation">Facebook</a></li>
+    </ul>
+  </div>
+</nav>
+    <!-- Progressbar -->
+    <div class="progress-container">
+        <span class="progress-bar"></span>
+    </div>
+
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header id="post-header" class="has-cover">
+      <div class="inner">
+        <nav id="navigation">
+            <span id="home-button" class="nav-button">
+                <a class="home-button" href="/" title="Home"><i class="ic ic-arrow-left"></i> Home</a>
+            </span>
+          <span id="menu-button" class="nav-button">
+            <a class="menu-button"><i class="ic ic-menu"></i> Menu</a>
+          </span>
+        </nav>
+        <h1 class="post-title">Adding stock tickers to the database and calculating the impact value</h1>
+        <!-- TODO : Proper class for headline -->
+        <span class="post-meta">
+                <a href="/author/wesley-klock">Wesley Klock</a>
+            | <time datetime="Sun 25 February 2018">Sun 25 February 2018</time>
+        </span>
+        <!-- TODO : Modified check -->
+            <div class="post-cover cover" style="background-image: url('/images/home-bg.jpg')">
+      </div>
+    </header>
+
+  <section id="wrapper">
+    <a class="hidden-close"></a>
+
+    <!-- Post content -->
+    <main class="content" role="main">
+        <article class="post">
+        <div class="inner">
+            <section class="post-content">
+                <p>Only at this stage of the project was I able to bring in the thing that it was
+all for: predicting stock values.</p>
+<p>It was unexpectedly difficult to find a good place to pull historical stock data
+because a the yahoo database was depreciated for python. However, the pandas
+datareader allowed me to pull data from the google database, which is know to be
+unstable but it worked good enough for me.</p>
+<p>The stock data was formatted as a difference between the open and close of the
+market on that day, and other values were used as multipliers. The formula for
+value or stock value change, was developed from a couple sci-kit regression
+analyses.</p>
+<p>The formula:</p>
+<div class="highlight"><pre><span></span><span class="n">value</span> <span class="o">=</span> <span class="n">change</span><span class="o">*</span><span class="p">(</span><span class="n">followers</span><span class="o">/</span><span class="n">totalfollowers</span><span class="p">)</span><span class="o">*</span><span class="n">polarity</span><span class="o">*</span><span class="n">confidence</span><span class="o">/</span><span class="p">(</span><span class="n">currentprice</span><span class="p">)</span><span class="o">*</span><span class="mi">10000</span>
+</pre></div>
+
+
+<p>The value for the tweet is an estimate of the change caused by the tweet given by
+people reached (followers) as a percentage of total followers, this then multiplied
+by the confidence and polarity and the percentage change in the stock on that day.
+The 10000 multiplier is used to create a reasonable percentage change using the
+Kylie Jenner tweet as a baseline.</p>
+<p>The full code is below:</p>
+<h2>sentiment.py</h2>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="kn">as</span> <span class="nn">pd</span>
+<span class="kn">from</span> <span class="nn">pandas_datareader</span> <span class="kn">import</span> <span class="n">data</span> <span class="k">as</span> <span class="n">web</span>
+<span class="c1"># Package and modules for importing data; this code may change depending on pandas version</span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+
+<span class="c1"># Let&#39;s get Apple stock data; Apple&#39;s ticker symbol is AAPL</span>
+<span class="c1"># First argument is the series we want, second is the source (&quot;yahoo&quot; for Yahoo! Finance), third is the start date, fourth is the end date</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;clusterdata/&quot;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="s2">&quot;cluster.csv&quot;</span><span class="p">,</span><span class="n">index_col</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;latin-1&#39;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">getstockvalue</span><span class="p">(</span><span class="n">change</span><span class="p">,</span> <span class="n">followers</span><span class="p">,</span> <span class="n">totalfollowers</span><span class="p">,</span> <span class="n">polarity</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">currentprice</span><span class="p">):</span>
+    <span class="c1"># determines effect of tweet on stock price change</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    date = date.split()[0]</span>
+<span class="sd">    date = date.split(&quot;/&quot;)</span>
+<span class="sd">    start = datetime.datetime(int(date[2]),int(date[0]),int(date[1])-1)</span>
+<span class="sd">    print(start)</span>
+<span class="sd">    apple = web.DataReader(&quot;AAPL&quot;, &quot;google&quot;, start)</span>
+<span class="sd">    type(apple)</span>
+<span class="sd">    print(apple)</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="n">change</span><span class="o">*</span><span class="p">(</span><span class="n">followers</span><span class="o">/</span><span class="n">totalfollowers</span><span class="p">)</span><span class="o">*</span><span class="n">polarity</span><span class="o">*</span><span class="n">confidence</span><span class="o">/</span><span class="p">(</span><span class="n">currentprice</span><span class="p">)</span><span class="o">*</span><span class="mi">10000</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span>
+
+<span class="n">start</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">(</span><span class="mi">2018</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">24</span><span class="p">)</span>
+<span class="c1"># Let&#39;s get Apple stock data; Apple&#39;s ticker symbol is AAPL</span>
+<span class="c1"># First argument is the series we want, second is the source (&quot;google&quot; for google Finance), third is the start date, fourth is the end date</span>
+<span class="n">apple</span> <span class="o">=</span> <span class="n">web</span><span class="o">.</span><span class="n">DataReader</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="s2">&quot;google&quot;</span><span class="p">,</span> <span class="n">start</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">apple</span><span class="p">)</span>
+<span class="n">currentprice</span> <span class="o">=</span> <span class="n">apple</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">dif</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">apple</span><span class="p">[</span><span class="s1">&#39;Open&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="n">apple</span><span class="p">[</span><span class="s1">&#39;Close&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+<span class="k">print</span><span class="p">(</span><span class="n">dif</span><span class="p">)</span>
+
+<span class="n">totalfollowers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;followers&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">index</span><span class="p">,</span><span class="n">row</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
+    <span class="n">followers</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;followers&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">polarity</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;polarity&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">confidence</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;sentiment_confidence&#39;</span><span class="p">][</span><span class="n">index</span><span class="p">]</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">at</span><span class="p">[</span><span class="n">index</span><span class="p">,</span><span class="s1">&#39;difference&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">getstockvalue</span><span class="p">(</span><span class="n">dif</span><span class="p">,</span> <span class="n">followers</span><span class="p">,</span> <span class="n">totalfollowers</span><span class="p">,</span> <span class="n">polarity</span><span class="p">,</span> <span class="n">confidence</span><span class="p">,</span> <span class="n">currentprice</span><span class="p">)</span>
+
+<span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s1">&#39;finaldata/&#39;</span><span class="o">+</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">+</span><span class="s1">&#39;.csv&#39;</span><span class="p">)</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</pre></div>
+            </section>
+
+            <section class="post-info">
+                <div class="post-share">
+                    <a class="twitter" href="https://twitter.com/share?text=Adding stock tickers to the database and calculating the impact value&amp;url=/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html" onclick="window.open(this.href, 'twitter-share', 'width=550,height=235');return false;">
+                    <i class="ic ic-twitter"></i><span class="hidden">Twitter</span>
+                    </a>
+                    <a class="facebook" href="https://www.facebook.com/sharer/sharer.php?u=/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html" onclick="window.open(this.href, 'facebook-share','width=580,height=296');return false;">
+                    <i class="ic ic-facebook"></i><span class="hidden">Facebook</span>
+                    </a>
+                    <a class="googleplus" href="https://plus.google.com/share?url=/2018/02/adding-stock-tickers-to-the-database-and-calculating-the-impact-value.html" onclick="window.open(this.href, 'google-plus-share', 'width=490,height=530');return false;">
+                    <i class="ic ic-googleplus"></i><span class="hidden">Google+</span>
+                    </a>
+                    <div class="clear"></div>
+                </div>
+
+
+                <div class="clear"></div>
+
+
+                </section>
+
+
+                <aside class="post-nav">
+                    <div class="clear"></div>
+                </aside>
+
+            </div>
+        </article>
+    </main>
+      <!-- TODO : Body class -->
+    <div id="body-class" style="display: none;" class=""></div>
+
+    <footer id="footer">
+      <div class="inner">
+        <section class="credits">
+
+
+          <span class="credits-theme">theme adapted<a rel="nofollow"> by wesley klock</a></span>
+          <span class="credits-software">published with <a href="https://github.com/getpelican/pelican" rel="nofollow">pelican</a></span>
+        </section>
+      </div>
+    </footer>
+  </section>
+
+  <script type="text/javascript" src="/theme/js/script.js"></script>
+
+</body>
+</html>
